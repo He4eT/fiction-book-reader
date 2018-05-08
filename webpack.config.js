@@ -14,6 +14,17 @@ module.exports = env => ({
       title: 'Development'
     })
   ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      }
+    ]
+  },
   mode: env.production
     ? 'production'
     : 'development',

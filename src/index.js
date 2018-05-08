@@ -8,18 +8,6 @@ let appendToEl = el => html =>
 let hideEl = id => () =>
   document.getElementById(id).style.display = 'none'
 
-let createInitialMarkup = () => {
-  let initialHtml = `
-    <div class='content'>
-      <div id='controls'>
-        <input type='file' id='bookInput'>
-      </div>
-      <div id='book'></div>
-    </div>`
-
-  appendToEl(document.body)(initialHtml)
-}
-
 let getFileFromInput = inputId => {
   let input = document.getElementById(inputId)
   
@@ -58,8 +46,6 @@ let renderBook = domId => text => {
   let el = document.getElementById(domId)
   appendToEl(el)(text)
 }
-
-createInitialMarkup()
 
 getFileFromInput('bookInput')
 .then(convertFileToBook)

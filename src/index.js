@@ -42,17 +42,20 @@ let getFileFromInput = inputId => {
 let convertFileToBook = file =>
   new FictionReader(file)
 
-let renderBook = domId => book => {
-  let content = book.getTableOfContents()
-  let el = document.getElementById(domId)
 
-  let textSections =content
+let convertBookToText = book => {
+  let content = book.getTableOfContents()
+
+  let textSections = content
     .map(section => section.textContent)
-  
-  let text = textSections
+
+  return textSections
     .reduce((res, section) =>
       res + textSections)
-  
+}
+
+let renderBook = domId => text => {
+  let el = document.getElementById(domId)
   appendToEl(el)(text)
 }
 
@@ -60,5 +63,6 @@ createInitialMarkup()
 
 getFileFromInput('bookInput')
 .then(convertFileToBook)
+.then(convertBookToText)
 .then(renderBook('book'))
 .then(hideEl('controls'))

@@ -5,6 +5,9 @@ import { FictionReader } from './fictionReader'
 let appendToEl = el => html =>
   el.insertAdjacentHTML('beforeend', html)
 
+let hideEl = id => () =>
+  document.getElementById(id).style.display = 'none'
+
 let createInitialMarkup = () => {
   let initialHtml = `
     <div class='content'>
@@ -17,7 +20,7 @@ let createInitialMarkup = () => {
   appendToEl(document.body)(initialHtml)
 }
 
-let getBookFileFromInput = inputId => {
+let getFileFromInput = inputId => {
   let input = document.getElementById(inputId)
   
   return new Promise((resolve, reject) => {
@@ -39,21 +42,23 @@ let getBookFileFromInput = inputId => {
 let convertFileToBook = file =>
   new FictionReader(file)
 
-let bookToDOM = domId => book => {
+let renderBook = domId => book => {
   let content = book.getTableOfContents()
   let el = document.getElementById(domId)
 
-  content
+  let textSections =content
     .map(section => section.textContent)
-    .forEach(appendToEl(el))
+  
+  let text = textSections
+    .reduce((res, section) =>
+      res + textSections)
+  
+  appendToEl(el)(text)
 }
-
-let hideEl = id => () =>
-  document.getElementById(id).style.display = 'none'
 
 createInitialMarkup()
 
-getBookFileFromInput('bookInput')
+getFileFromInput('bookInput')
 .then(convertFileToBook)
-.then(bookToDOM('book'))
+.then(renderBook('book'))
 .then(hideEl('controls'))
